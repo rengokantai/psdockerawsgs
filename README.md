@@ -53,3 +53,31 @@ docker inspect newname
 ping 172.18.0.2 [newnet]
 ping 172.17.0.2	[bridge]
 ```
+###5 Working with Dockerfiles
+Dockerfile
+```
+FROM ubuntu:16.04
+
+RUN apt update
+RUN apt install -y apache2
+RUN echo "test" > /var/www/html/index.html
+EXPOSE 80
+```
+
+sudo su
+docker build -t "webserver" .
+docker images
+docker run -d -p 80:80 webserver /usr/sbin/apache2ctl -D FOREGROUND
+docker ps
+curl localhost
+from browser: 
+ip
+```
+
+###6 Working with Docker Hub Images
+```
+docker search apache/ubuntu
+docker search ubuntu
+docker pull ubuntu-upstart
+docker run -it ubuntu-upstart /bin/bash
+```
