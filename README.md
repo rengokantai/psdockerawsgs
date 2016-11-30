@@ -89,3 +89,37 @@ service->(initiate)->Task->(contains)->container
 
 ##3. Amazon ECS: Building a Cluster Environment
 ###1 Prepare an EC2 Instance and an ECS Task
+####02:00
+Role type: choose `Amazon EC2 Role for EC2 Container Service`  
+Attach policy
+
+
+####04:33
+container name: mycontainer  
+image: dbclinton/newserver  ->add  
+next time we need to build a service to manage the task
+
+
+###2 Build an EC2 Service to Run the Task
+###3 Working with ECS Through the AWS CLI
+install aws-cli
+```
+python --version
+curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip"
+sudo apt install unzip
+unzip awscli-bundle.zip
+sudo ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws
+aws configure
+<ul>add us-east-1</ul>
+cd .aws
+ls
+nano config
+```
+ecs
+```
+aws ecs help
+aws ecs list-clusters
+aws ecs describe-clusters
+aws ecs create-cluster --cluster-name newcluster
+```
+
