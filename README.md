@@ -81,3 +81,11 @@ docker search ubuntu
 docker pull ubuntu-upstart
 docker run -it ubuntu-upstart /bin/bash
 ```
+
+##2. Amazon ECS: Exploring the Environment
+###2 EC2 Container Service: Defining Terms
+service->(initiate)->Task->(contains)->container
+
+
+##3. Amazon ECS: Building a Cluster Environment
+###1 Prepare an EC2 Instance and an ECS Task
