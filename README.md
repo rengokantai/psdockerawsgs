@@ -64,6 +64,7 @@ RUN echo "test" > /var/www/html/index.html
 EXPOSE 80
 ```
 
+```
 sudo su
 docker build -t "webserver" .
 docker images
@@ -110,10 +111,10 @@ sudo apt install unzip
 unzip awscli-bundle.zip
 sudo ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws
 aws configure
-<ul>add us-east-1</ul>
+
 cd .aws
 ls
-nano config
+vim config
 ```
 ecs
 ```
@@ -122,4 +123,68 @@ aws ecs list-clusters
 aws ecs describe-clusters
 aws ecs create-cluster --cluster-name newcluster
 ```
+
+##4. Working with Docker Images and Registries
+###1 Introduction to Image Registries
+```
+sudo su
+cat dockerfile
+```
+
+content of Dockerfile
+```
+FROM ubuntu:16.04
+
+RUN apt update
+RUN apt install -y apache2
+RUN echo "test" > /var/www/html/index.html
+CMD /usr/sbin/apache2ctl -D FOREGROUND
+EXPOSE 80
+```
+
+```
+docker build -t newerserver .
+docker run -d -p 80:80 newerserver
+docker ps
+curl localhost
+
+docker login
+
+docker images	
+docker tag 1f9bd3ea1a9d rengokantai/newerserver
+docker push rengokantai/newerserver
+```
+
+
+###3 Configure ECS to Authenticate with Docker Hub
+
+
+```
+ssh -i mykey.pem ec2-user@1.2.3.4
+sudo su
+cd /etc/ecs
+vim ecs.config
+```
+edit
+```
+ECS_ENGINE_AUTH_TYPE=docker
+ECS_ENGINE_AUTH_DATA={"https://index.docker.io/v1/":{"username":"ke","password":"pass","email":"email@gmail.com"}}
+```
+```
+stop ecs
+start ecs
+docker inspect ecs-agent | grep ECS_DATADIR
+```
+###4 Working with the Amazon EC2 Container Registry (ECR)
+```
+aws ecr get-login --region us-east-1
+```
+
+create a tag for ecr
+```
+docker tag 12345678 1234.dkr.ecr.us-east-1.amazonaws.com/reponame
+```
+
+####02:16
+create task->add container->image : 12345678 1234.dkr.ecr.us-east-1.amazonaws.com/reponame  
 
